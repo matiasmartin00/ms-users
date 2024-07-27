@@ -1,0 +1,28 @@
+package com.proyectum.users.api.error;
+
+import com.proyectum.model.Error;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import java.util.stream.Collectors;
+
+@ControllerAdvice
+public class ErrorHandlerAdvice {
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Error> methodArgumentNotValidException(MethodArgumentNotValidException exception) {
+        var error = new Error();
+        error.setCode(HttpStatus.BAD_REQUEST.value());
+        var message = exception.getBindingResult().getFieldErrors()
+                        .stream()
+                        .map(fieldError -> String.format("%s: %s", fieldError.getField(), fieldError.getDefaultMessage()))
+                        .collect(Collectors.joining(" - "));
+        error.setMessage(message);
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(error);
+    }
+}
