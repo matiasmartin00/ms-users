@@ -1,3 +1,8 @@
 spring:
+  profiles:
+    active: local
   application:
     name: ms-users
+  jpa:
+    hibernate:
+      ddl-auto: none
