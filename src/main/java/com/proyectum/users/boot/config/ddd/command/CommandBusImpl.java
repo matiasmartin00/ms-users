@@ -15,11 +15,11 @@ public class CommandBusImpl implements CommandBus {
     private final Map<Class<? extends Command>, CommandHandler> handlers;
 
     @Override
-    public void handle(Command command) {
+    public <R> R handle(Command command) {
         var handler = handlers.get(command.getClass());
         if (Objects.isNull(handler)) {
             throw new UnknownCommandHandlerException("No handler found for command " + command.getClass());
         }
-        handler.handle(command);
+        return (R) handler.handle(command);
     }
 }

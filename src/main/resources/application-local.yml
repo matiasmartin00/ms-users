@@ -1,4 +1,8 @@
 spring:
+  security:
+    jwt:
+      secret: it-is-a-super-secret-for-jwt
+      expiration: 86400000 # one day in ms
   flyway:
     enabled: true
     validate-on-migrate: true

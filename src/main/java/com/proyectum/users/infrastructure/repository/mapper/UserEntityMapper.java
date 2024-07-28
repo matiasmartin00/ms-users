@@ -14,19 +14,37 @@ public interface UserEntityMapper {
 
     UserEntity to(UserAggregate src);
 
+    UserAggregate to(UserEntity src);
+
+    default AggregateID to(UUID id) {
+        return new AggregateID(id);
+    }
+
+    default Username toUsername(String username) {
+        return new Username(username);
+    }
+
+    default Password toPassword(String password) {
+        return new Password(password);
+    }
+
+    default Email toEmail(String email) {
+        return new Email(email);
+    }
+
+    default CreatedAt toCreatedAt(LocalDateTime createdAt) {
+        return new CreatedAt(createdAt);
+    }
+
+    default UpdatedAt toUpdatedAt(LocalDateTime updatedAt) {
+        return new UpdatedAt(updatedAt);
+    }
+
     default String map(Email src) {
         return src.value();
     }
 
     default String map(Username src) {
-        return src.value();
-    }
-
-    default String map(FirstName src) {
-        return src.value();
-    }
-
-    default String map(LastName src) {
         return src.value();
     }
 

@@ -1,37 +1,79 @@
 openapi: 3.0.0
 info:
-  title: User Management
+  title: Auth Management
   version: 1.0.0
   description: User Management endpoints
 paths:
-  /v1/users:
+  /v1/auth/sign-in:
     post:
-      summary: Create a user
-      operationId: create
+      summary: Sign in
+      operationId: signIn
       tags:
-        - user
+        - auth
       requestBody:
-        description: Creation User Request
+        description: Sign in
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreationUserRequest'
+              $ref: '#/components/schemas/SignInRequest'
+      responses:
+        200:
+          description: 'Logged'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignInResponse'
+        401:
+          description: 'Unauthorized'
+  /v1/auth/sign-up:
+    post:
+      summary: Sign up
+      operationId: signUp
+      tags:
+        - auth
+      requestBody:
+        description: Sign up
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignUpRequest'
       responses:
         '201':
           description: Created
 
 components:
   schemas:
-    CreationUserRequest:
+    SignInRequest:
+      type: object
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+          maxLength: 15
+          minLength: 5
+          example: 'jdoe'
+        password:
+          type: string
+          minLength: 5
+          maxLength: 25
+          example: 'jdoe@example.com'
+    SignInResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          example: "jwt token"
+    SignUpRequest:
       type: object
       required:
         - id
         - username
         - password
         - email
-        - last_name
-        - first_name
       properties:
         id:
           type: string
@@ -50,16 +92,7 @@ components:
           type: string
           minLength: 5
           maxLength: 25
-        first_name:
-          type: string
-          minLength: 1
-          maxLength: 50
-          example: 'John'
-        last_name:
-          type: string
-          minLength: 1
-          maxLength: 50
-          example: 'Doe'
+          example: "my-super-password"
     Error:
       type: object
       properties:
