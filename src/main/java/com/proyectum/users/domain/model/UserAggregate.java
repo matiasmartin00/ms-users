@@ -18,7 +18,7 @@ public class UserAggregate extends AggregateRoot {
     private CreatedAt createdAt;
     private UpdatedAt updatedAt;
 
-    private UserAggregate() {
+    public UserAggregate() {
         super();
     }
 

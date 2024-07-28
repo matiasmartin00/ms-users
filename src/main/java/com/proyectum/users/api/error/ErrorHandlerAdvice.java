@@ -1,10 +1,7 @@
 package com.proyectum.users.api.error;
 
 import com.proyectum.model.Error;
-import com.proyectum.users.domain.error.DomainError;
-import com.proyectum.users.domain.error.EmailAlreadyExistsError;
-import com.proyectum.users.domain.error.UserAlreadyExistsError;
-import com.proyectum.users.domain.error.UsernameAlreadyExistsError;
+import com.proyectum.users.domain.error.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -49,6 +46,17 @@ public class ErrorHandlerAdvice {
         error.setMessage(message);
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)
+                .body(error);
+    }
+
+    @ExceptionHandler({InvalidCredentialsError.class})
+    public ResponseEntity<Error> unauthorizedRequestsError(DomainError exception) {
+        var error = new Error();
+        error.setCode(HttpStatus.UNAUTHORIZED.value());
+        var message = exception.getMessage();
+        error.setMessage(message);
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
                 .body(error);
     }
 }

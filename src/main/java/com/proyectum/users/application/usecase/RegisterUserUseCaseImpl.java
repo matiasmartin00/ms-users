@@ -33,6 +33,5 @@ public class RegisterUserUseCaseImpl implements RegisterUserUseCase {
         );
         checkUserUseCase.checkUser(user);
         saveUserRepository.save(user);
-        log.info("User created: {}", user);
     }
 }

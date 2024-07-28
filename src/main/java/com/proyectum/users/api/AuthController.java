@@ -21,7 +21,10 @@ public class AuthController implements AuthApi {
 
     @Override
     public ResponseEntity<Void> signIn(@Valid @RequestBody SignInRequest signIn) {
-        return ResponseEntity.ok().build();
+        var command = authApiMapper.to(signIn);
+        commandBus.handle(command);
+        return ResponseEntity.ok()
+                .build();
     }
 
     @Override
