@@ -2,6 +2,7 @@ package com.proyectum.users.api;
 
 import com.proyectum.api.AuthApi;
 import com.proyectum.model.SignInRequest;
+import com.proyectum.model.SignInResponse;
 import com.proyectum.model.SignUpRequest;
 import com.proyectum.users.api.mapper.AuthApiMapper;
 import com.proyectum.users.ddd.command.CommandBus;
@@ -20,11 +21,12 @@ public class AuthController implements AuthApi {
     private final AuthApiMapper authApiMapper;
 
     @Override
-    public ResponseEntity<Void> signIn(@Valid @RequestBody SignInRequest signIn) {
+    public ResponseEntity<SignInResponse> signIn(@Valid @RequestBody SignInRequest signIn) {
         var command = authApiMapper.to(signIn);
-        commandBus.handle(command);
+        var token = commandBus.handle(command);
+        var response = authApiMapper.to((String) token);
         return ResponseEntity.ok()
-                .build();
+                .body(response);
     }
 
     @Override

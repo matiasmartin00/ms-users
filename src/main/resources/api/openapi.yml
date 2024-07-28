@@ -18,8 +18,12 @@ paths:
             schema:
               $ref: '#/components/schemas/SignInRequest'
       responses:
-        201:
+        200:
           description: 'Logged'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignInResponse'
         401:
           description: 'Unauthorized'
   /v1/auth/sign-up:
@@ -57,6 +61,12 @@ components:
           minLength: 5
           maxLength: 25
           example: 'jdoe@example.com'
+    SignInResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          example: "jwt token"
     SignUpRequest:
       type: object
       required:

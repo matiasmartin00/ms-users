@@ -1,6 +1,6 @@
 package com.proyectum.users.ddd.command;
 
-public interface CommandHandler <C extends Command> {
+public interface CommandHandler <C extends Command, R> {
 
-    void handle(C command);
+    R handle(C command);
 }

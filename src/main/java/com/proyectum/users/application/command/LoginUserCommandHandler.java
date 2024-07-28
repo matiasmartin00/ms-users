@@ -12,14 +12,15 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class LoginUserCommandHandler implements CommandHandler<LoginUserCommand> {
+public class LoginUserCommandHandler implements CommandHandler<LoginUserCommand, String> {
 
     private final LoginUserUseCase loginUserUseCase;
 
     @Override
-    public void handle(LoginUserCommand command) {
+    public String handle(LoginUserCommand command) {
         log.info("Login user");
         var token = loginUserUseCase.login(command);
         log.info("User logged");
+        return token;
     }
 }
