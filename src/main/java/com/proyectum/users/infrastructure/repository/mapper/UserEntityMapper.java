@@ -22,14 +22,6 @@ public interface UserEntityMapper {
         return src.value();
     }
 
-    default String map(FirstName src) {
-        return src.value();
-    }
-
-    default String map(LastName src) {
-        return src.value();
-    }
-
     default String map(Password src) {
         return src.value();
     }

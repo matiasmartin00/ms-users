@@ -1,6 +1,10 @@
 package com.proyectum.users.api.error;
 
 import com.proyectum.model.Error;
+import com.proyectum.users.domain.error.DomainError;
+import com.proyectum.users.domain.error.EmailAlreadyExistsError;
+import com.proyectum.users.domain.error.UserAlreadyExistsError;
+import com.proyectum.users.domain.error.UsernameAlreadyExistsError;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -23,6 +27,28 @@ public class ErrorHandlerAdvice {
         error.setMessage(message);
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
+                .body(error);
+    }
+
+    @ExceptionHandler({EmailAlreadyExistsError.class, UsernameAlreadyExistsError.class})
+    public ResponseEntity<Error> badRequestsError(DomainError exception) {
+        var error = new Error();
+        error.setCode(HttpStatus.BAD_REQUEST.value());
+        var message = exception.getMessage();
+        error.setMessage(message);
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(error);
+    }
+
+    @ExceptionHandler({UserAlreadyExistsError.class})
+    public ResponseEntity<Error> conflictRequestsError(DomainError exception) {
+        var error = new Error();
+        error.setCode(HttpStatus.CONFLICT.value());
+        var message = exception.getMessage();
+        error.setMessage(message);
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
                 .body(error);
     }
 }

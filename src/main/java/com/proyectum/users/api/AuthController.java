@@ -1,28 +1,32 @@
 package com.proyectum.users.api;
 
-import com.proyectum.api.UserApi;
-import com.proyectum.model.CreationUserRequest;
-import com.proyectum.users.api.mapper.UserApiMapper;
+import com.proyectum.api.AuthApi;
+import com.proyectum.model.SignInRequest;
+import com.proyectum.model.SignUpRequest;
+import com.proyectum.users.api.mapper.AuthApiMapper;
 import com.proyectum.users.ddd.command.CommandBus;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-
-
 @RestController
 @RequiredArgsConstructor
-public class UserController implements UserApi {
+public class AuthController implements AuthApi {
 
     private final CommandBus commandBus;
-    private final UserApiMapper userApiMapper;
+    private final AuthApiMapper authApiMapper;
 
     @Override
-    public ResponseEntity<Void> create(@Valid @RequestBody CreationUserRequest creationUserRequest) {
-        var command = userApiMapper.to(creationUserRequest);
+    public ResponseEntity<Void> signIn(@Valid @RequestBody SignInRequest signIn) {
+        return ResponseEntity.ok().build();
+    }
+
+    @Override
+    public ResponseEntity<Void> signUp(SignUpRequest signUpRequest) {
+        var command = authApiMapper.to(signUpRequest);
         commandBus.handle(command);
         return ResponseEntity
                 .status(HttpStatus.CREATED)

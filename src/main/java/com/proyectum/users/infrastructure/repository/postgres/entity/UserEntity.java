@@ -31,12 +31,6 @@ public class UserEntity {
     @Column(unique = true, nullable = false, name = "email")
     private String email;
 
-    @Column(nullable = false, name = "first_name")
-    private String firstName;
-
-    @Column(nullable = false, name = "last_name")
-    private String lastName;
-
     @Column(nullable = false, name = "created_at")
     private LocalDateTime createdAt;
 
