@@ -19,7 +19,7 @@ public class LoginUserCommandHandler implements CommandHandler<LoginUserCommand>
     @Override
     public void handle(LoginUserCommand command) {
         log.info("Login user");
-        loginUserUseCase.login(command);
+        var token = loginUserUseCase.login(command);
         log.info("User logged");
     }
 }

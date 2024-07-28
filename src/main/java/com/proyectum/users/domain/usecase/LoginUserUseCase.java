@@ -7,5 +7,5 @@ import com.proyectum.users.domain.model.Username;
 
 public interface LoginUserUseCase {
 
-    UserAggregate login(LoginUserCommand command);
+    String login(LoginUserCommand command);
 }
