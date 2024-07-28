@@ -27,7 +27,7 @@ public class ErrorHandlerAdvice {
                 .body(error);
     }
 
-    @ExceptionHandler({EmailAlreadyExistsError.class, UsernameAlreadyExistsError.class})
+    @ExceptionHandler({EmailAlreadyExistsError.class, UsernameAlreadyExistsError.class, RoleNameAlreadyExistsError.class})
     public ResponseEntity<Error> badRequestsError(DomainError exception) {
         var error = new Error();
         error.setCode(HttpStatus.BAD_REQUEST.value());
@@ -38,7 +38,7 @@ public class ErrorHandlerAdvice {
                 .body(error);
     }
 
-    @ExceptionHandler({UserAlreadyExistsError.class})
+    @ExceptionHandler({UserAlreadyExistsError.class, RoleAlreadyExistsError.class})
     public ResponseEntity<Error> conflictRequestsError(DomainError exception) {
         var error = new Error();
         error.setCode(HttpStatus.CONFLICT.value());

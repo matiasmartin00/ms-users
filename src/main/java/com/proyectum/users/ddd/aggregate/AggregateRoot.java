@@ -12,11 +12,13 @@ public abstract class AggregateRoot {
     private AggregateID id;
     private List<DomainEvent> events;
 
-    protected AggregateRoot() {}
+    protected AggregateRoot() {
+        this.events = new ArrayList<>();
+    }
 
     protected AggregateRoot(AggregateID id) {
+        this();
         this.id = id;
-        this.events = new ArrayList<>();
     }
 
     protected void addEvent(DomainEvent event) {

@@ -3,8 +3,8 @@ package com.proyectum.users.api.mapper;
 import com.proyectum.model.SignInRequest;
 import com.proyectum.model.SignInResponse;
 import com.proyectum.model.SignUpRequest;
-import com.proyectum.users.domain.command.LoginUserCommand;
-import com.proyectum.users.domain.command.RegisterUserCommand;
+import com.proyectum.users.domain.command.user.LoginUserCommand;
+import com.proyectum.users.domain.command.user.RegisterUserCommand;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

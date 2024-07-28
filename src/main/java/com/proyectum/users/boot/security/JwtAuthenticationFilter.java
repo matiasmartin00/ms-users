@@ -8,6 +8,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -29,6 +32,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private static final String BEARER_PREFIX = "Bearer ";
 
     private final JwtRepository jwtRepository;
+    private final UserDetailsService userDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -43,22 +47,24 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String authorizationHeader = request.getHeader(AUTHORIZATION_HEADER);
 
         if (StringUtils.isBlank(authorizationHeader)) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             throw new InvalidCredentialsError();
         }
 
         if (!authorizationHeader.startsWith(BEARER_PREFIX)) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             throw new InvalidCredentialsError();
         }
 
-        try {
-            var jwt = authorizationHeader.substring(BEARER_PREFIX.length());
-            jwtRepository.checkToken(jwt);
-        } catch (Exception e) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-            throw e;
-        }
+        var jwt = authorizationHeader.substring(BEARER_PREFIX.length());
+        jwtRepository.checkToken(jwt);
+        var username = jwtRepository.getUsername(jwt);
+        var context = SecurityContextHolder.getContext();
+        var userDetails = userDetailsService.loadUserByUsername(username);
+
+        var usernameAuthenticationToken = new UsernamePasswordAuthenticationToken(
+            userDetails, null, userDetails.getAuthorities()
+        );
+
+        context.setAuthentication(usernameAuthenticationToken);
         filterChain.doFilter(request, response);
     }
 }

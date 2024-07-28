@@ -30,7 +30,7 @@ public class AuthController implements AuthApi {
     }
 
     @Override
-    public ResponseEntity<Void> signUp(SignUpRequest signUpRequest) {
+    public ResponseEntity<Void> signUp(@Valid @RequestBody SignUpRequest signUpRequest) {
         var command = authApiMapper.to(signUpRequest);
         commandBus.handle(command);
         return ResponseEntity

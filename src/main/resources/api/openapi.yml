@@ -42,9 +42,44 @@ paths:
       responses:
         '201':
           description: Created
-
+  /v1/roles:
+    post:
+      summary: Create role
+      operationId: create
+      tags:
+        - role
+      requestBody:
+        description: Create role
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoleRequest'
+      responses:
+        201:
+          description: 'Created'
 components:
   schemas:
+    RoleRequest:
+      type: object
+      required:
+        - id
+        - name
+        - description
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: '66a822be-b28a-4258-9a51-f6bd017ba0fe'
+        name:
+          type: string
+          maxLength: 40
+          minLength: 3
+        description:
+          type: string
+          maxLength: 100
+          minLength: 5
+
     SignInRequest:
       type: object
       required:
