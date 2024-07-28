@@ -7,6 +7,7 @@ import com.proyectum.users.ddd.aggregate.AggregateID;
 import com.proyectum.users.domain.command.role.CreateRoleCommand;
 import com.proyectum.users.domain.model.role.Description;
 import com.proyectum.users.domain.model.role.Name;
+import com.proyectum.users.domain.model.role.PermissionID;
 import com.proyectum.users.domain.model.role.RoleAggregate;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -22,6 +23,10 @@ public interface RoleApiMapper {
     Role to(RoleAggregate src);
 
     default UUID toUUID(AggregateID src) {
+        return src.value();
+    }
+
+    default UUID toUUID(PermissionID src) {
         return src.value();
     }
 

@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+import java.util.Set;
+
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
@@ -14,6 +16,7 @@ public class RoleAggregate extends AggregateRoot {
 
     private Name name;
     private Description description;
+    private Set<Permission> permissions;
 
     public RoleAggregate() {
         super();

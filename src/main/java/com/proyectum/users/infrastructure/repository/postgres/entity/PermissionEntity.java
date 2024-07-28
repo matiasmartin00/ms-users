@@ -1,19 +1,21 @@
 package com.proyectum.users.infrastructure.repository.postgres.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Set;
 import java.util.UUID;
 
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "roles")
-public class RoleEntity {
+@Table(name = "permissions")
+public class PermissionEntity {
 
     @Id
     @Column(nullable = false, unique = true, name = "id")
@@ -24,13 +26,4 @@ public class RoleEntity {
 
     @Column(nullable = false, unique = true, name = "description")
     private String description;
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "role_permissions",
-            joinColumns = @JoinColumn(name = "role_id"),
-            inverseJoinColumns = @JoinColumn(name = "permission_id")
-    )
-    private Set<PermissionEntity> permissions;
-
 }
