@@ -14,6 +14,20 @@ public interface RoleEntityMapper {
 
     RoleEntity to(RoleAggregate src);
 
+    RoleAggregate to(RoleEntity src);
+
+    default AggregateID toAggregateId(UUID src) {
+        return new AggregateID(src);
+    }
+
+    default Name toName(String src) {
+        return new Name(src);
+    }
+
+    default Description toDescription(String src) {
+        return new Description(src);
+    }
+
     default UUID toUUID(AggregateID src) {
         return src.value();
     }

@@ -1,6 +1,8 @@
 package com.proyectum.users.api.error;
 
 import com.proyectum.model.Error;
+import com.proyectum.users.boot.config.ddd.exceptions.UnknownCommandHandlerException;
+import com.proyectum.users.boot.config.ddd.exceptions.UnknownQueryHandlerException;
 import com.proyectum.users.domain.error.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,6 +59,17 @@ public class ErrorHandlerAdvice {
         error.setMessage(message);
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
+                .body(error);
+    }
+
+    @ExceptionHandler({UnknownQueryHandlerException.class, UnknownCommandHandlerException.class})
+    public ResponseEntity<Error> internalRequestsError(DomainError exception) {
+        var error = new Error();
+        error.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        var message = exception.getMessage();
+        error.setMessage(message);
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(error);
     }
 }
