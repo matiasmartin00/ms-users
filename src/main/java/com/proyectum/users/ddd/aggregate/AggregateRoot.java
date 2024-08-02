@@ -5,21 +5,24 @@ import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Data
-public abstract class AggregateRoot {
+public abstract class AggregateRoot<ID extends ValueObject<UUID>> {
 
-    private AggregateID id;
+    private ID id;
     private List<DomainEvent> events;
 
-    protected AggregateRoot() {}
-
-    protected AggregateRoot(AggregateID id) {
-        this.id = id;
+    protected AggregateRoot() {
         this.events = new ArrayList<>();
     }
 
-    protected void addEvent(DomainEvent event) {
+    protected AggregateRoot(ID id) {
+        this();
+        this.id = id;
+    }
+
+    protected void registerEvent(DomainEvent event) {
         events.add(event);
     }
 }

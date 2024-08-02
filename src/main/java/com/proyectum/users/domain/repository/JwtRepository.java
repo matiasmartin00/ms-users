@@ -1,10 +1,15 @@
 package com.proyectum.users.domain.repository;
 
-import com.proyectum.users.domain.model.UserAggregate;
+import com.proyectum.users.domain.model.user.UserAggregate;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public interface JwtRepository {
 
-    String generateToken(UserAggregate user);
+    String generateToken(@Valid @NotNull UserAggregate user);
 
-    void checkToken(String token);
+    void checkToken(@Valid @NotBlank String token);
+
+    String getUsername(@Valid @NotBlank String token);
 }

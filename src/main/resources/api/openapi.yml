@@ -42,9 +42,259 @@ paths:
       responses:
         '201':
           description: Created
-
+  /v1/auth:
+    get:
+      description: Get auth information
+      operationId: authData
+      tags:
+        - auth
+      responses:
+        200:
+          description: Get auth information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthDataResponse'
+  /v1/auth/{userId}/roles:
+    post:
+      description: Add role to user
+      operationId: addRole
+      tags:
+        - auth
+      parameters:
+        - name: userId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          in: path
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddRoleRequest'
+      responses:
+        200:
+          description: Success
+  /v1/auth/{userId}/roles/{roleId}:
+    delete:
+      description: Delete role to user
+      operationId: deleteRole
+      tags:
+        - auth
+      parameters:
+        - name: userId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          in: path
+        - name: roleId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          in: path
+      responses:
+        200:
+          description: Success
+  /v1/roles:
+    post:
+      summary: Create role
+      operationId: create
+      tags:
+        - role
+      requestBody:
+        description: Create role
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoleRequest'
+      responses:
+        201:
+          description: 'Created'
+    get:
+      description: List all roles
+      operationId: listAll
+      tags:
+        - role
+      responses:
+        200:
+          description: All roles
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleResponse'
+  /v1/roles/{roleId}/permissions:
+    post:
+      description: Add permission to Role
+      operationId: addPermission
+      tags:
+        - role
+      parameters:
+        - name: roleId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          in: path
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddPermissionRequest'
+      responses:
+        201:
+          description: 'Permission Added'
+  /v1/roles/{roleId}/permissions/{permissionId}:
+    delete:
+      description: Delete permission to role
+      operationId: deletePermission
+      tags:
+        - role
+      parameters:
+        - name: roleId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          in: path
+        - name: permissionId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          in: path
+      responses:
+        200:
+          description: Success
 components:
   schemas:
+    AuthDataResponse:
+      type: object
+      properties:
+        username:
+          type: string
+          example: 'jdoe'
+        email:
+          type: string
+          example: 'jdoe@example.com'
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoleLite'
+    RoleRequest:
+      type: object
+      required:
+        - id
+        - name
+        - description
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: '66a822be-b28a-4258-9a51-f6bd017ba0fe'
+        name:
+          type: string
+          maxLength: 40
+          minLength: 3
+        description:
+          type: string
+          maxLength: 100
+          minLength: 5
+    RoleResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Role'
+    RoleLite:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 40
+          minLength: 3
+        permissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/PermissionLite'
+    Role:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: '66a822be-b28a-4258-9a51-f6bd017ba0fe'
+        name:
+          type: string
+          maxLength: 40
+          minLength: 3
+        description:
+          type: string
+          maxLength: 100
+          minLength: 5
+        permissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Permission'
+    AddRoleRequest:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: string
+          format: uuid
+    AddPermissionRequest:
+      type: object
+      required:
+        - id
+        - name
+        - description
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          maxLength: 40
+          minLength: 3
+        description:
+          type: string
+          maxLength: 100
+          minLength: 5
+    PermissionLite:
+      type: object
+      required:
+        - id
+        - name
+        - description
+      properties:
+        name:
+          type: string
+          maxLength: 40
+          minLength: 3
+    Permission:
+      type: object
+      required:
+        - id
+        - name
+        - description
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          maxLength: 40
+          minLength: 3
+        description:
+          type: string
+          maxLength: 100
+          minLength: 5
     SignInRequest:
       type: object
       required:
