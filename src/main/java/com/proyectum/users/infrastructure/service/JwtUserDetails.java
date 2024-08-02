@@ -27,6 +27,6 @@ public class JwtUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return "";
+        return username;
     }
 }

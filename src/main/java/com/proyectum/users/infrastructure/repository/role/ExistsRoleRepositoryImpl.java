@@ -1,7 +1,7 @@
 package com.proyectum.users.infrastructure.repository.role;
 
-import com.proyectum.users.ddd.aggregate.AggregateID;
 import com.proyectum.users.domain.model.role.Name;
+import com.proyectum.users.domain.model.role.RoleID;
 import com.proyectum.users.domain.repository.role.ExistsRoleRepository;
 import com.proyectum.users.infrastructure.repository.postgres.repository.RoleEntityRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ public class ExistsRoleRepositoryImpl implements ExistsRoleRepository {
     }
 
     @Override
-    public boolean existsById(AggregateID id) {
+    public boolean existsById(RoleID id) {
         return roleEntityRepository.existsById(id.value());
     }
 }

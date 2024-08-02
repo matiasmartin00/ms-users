@@ -1,28 +1,35 @@
 package com.proyectum.users.domain.model.user;
 
-import com.proyectum.users.ddd.aggregate.AggregateID;
 import com.proyectum.users.ddd.aggregate.AggregateRoot;
 import com.proyectum.users.domain.event.user.UserRegisteredEvent;
+import com.proyectum.users.domain.event.user.UserRoleAddedEvent;
+import com.proyectum.users.domain.event.user.UserRoleDeletedEvent;
+import com.proyectum.users.domain.model.role.RoleAggregate;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-public class UserAggregate extends AggregateRoot {
+public class UserAggregate extends AggregateRoot<UserID> {
 
     private Username username;
     private Password password;
     private Email email;
     private CreatedAt createdAt;
     private UpdatedAt updatedAt;
+    private Set<RoleAggregate> roles;
 
     public UserAggregate() {
         super();
+        this.roles = new HashSet<>();
     }
 
-    private UserAggregate(AggregateID aggregateID, Username username, Password password,
+    private UserAggregate(UserID aggregateID, Username username, Password password,
                           Email email, CreatedAt createdAt, UpdatedAt updatedAt) {
         super(aggregateID);
         this.username = username;
@@ -30,9 +37,10 @@ public class UserAggregate extends AggregateRoot {
         this.email = email;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.roles = new HashSet<>();
     }
 
-    public static UserAggregate create(AggregateID id, Username username, Password password, Email email) {
+    public static UserAggregate create(UserID id, Username username, Password password, Email email) {
         var user = new UserAggregate(
                 id,
                 username,
@@ -43,7 +51,23 @@ public class UserAggregate extends AggregateRoot {
         );
 
         var event = new UserRegisteredEvent(user.getId(), user.getUsername(), user.getEmail());
-        user.addEvent(event);
+        user.registerEvent(event);
         return user;
+    }
+
+    public void addRole(RoleAggregate role) {
+        this.roles.add(role);
+        var event = new UserRoleAddedEvent(super.getId(), role.getId());
+        this.registerEvent(event);
+    }
+
+    public void deleteRole(RoleAggregate role) {
+        this.roles.remove(role);
+        var event = new UserRoleDeletedEvent(super.getId(), role.getId());
+        this.registerEvent(event);
+    }
+
+    public Set<RoleAggregate> getRoles() {
+        return Collections.unmodifiableSet(roles);
     }
 }

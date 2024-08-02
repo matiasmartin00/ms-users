@@ -1,11 +1,7 @@
 package com.proyectum.users.application.usecase.user;
 
-import com.proyectum.users.ddd.aggregate.AggregateID;
 import com.proyectum.users.domain.command.user.RegisterUserCommand;
-import com.proyectum.users.domain.model.user.Email;
-import com.proyectum.users.domain.model.user.Password;
-import com.proyectum.users.domain.model.user.UserAggregate;
-import com.proyectum.users.domain.model.user.Username;
+import com.proyectum.users.domain.model.user.*;
 import com.proyectum.users.domain.repository.user.SaveUserRepository;
 import com.proyectum.users.domain.usecase.user.CheckUserUseCase;
 import com.proyectum.users.domain.usecase.user.RegisterUserUseCase;
@@ -29,7 +25,7 @@ public class RegisterUserUseCaseImpl implements RegisterUserUseCase {
     public void create(RegisterUserCommand command) {
         var passwordEncoded = passwordEncoder.encode(command.password());
         var user = UserAggregate.create(
-                new AggregateID(command.id()),
+                new UserID(command.id()),
                 new Username(command.username()),
                 new Password(passwordEncoded),
                 new Email(command.email())

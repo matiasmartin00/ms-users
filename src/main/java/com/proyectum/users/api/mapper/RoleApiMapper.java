@@ -1,18 +1,14 @@
 package com.proyectum.users.api.mapper;
 
-import com.proyectum.model.Role;
-import com.proyectum.model.RoleRequest;
-import com.proyectum.model.RoleResponse;
-import com.proyectum.users.ddd.aggregate.AggregateID;
+import com.proyectum.model.*;
+import com.proyectum.users.domain.command.role.AddPermissionCommand;
 import com.proyectum.users.domain.command.role.CreateRoleCommand;
-import com.proyectum.users.domain.model.role.Description;
-import com.proyectum.users.domain.model.role.Name;
-import com.proyectum.users.domain.model.role.PermissionID;
-import com.proyectum.users.domain.model.role.RoleAggregate;
+import com.proyectum.users.domain.command.role.DeletePermissionCommand;
+import com.proyectum.users.domain.command.user.AddRoleUserCommand;
+import com.proyectum.users.domain.model.role.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import java.util.List;
 import java.util.UUID;
 
 @Mapper(componentModel = "spring")
@@ -20,9 +16,13 @@ public interface RoleApiMapper {
 
     CreateRoleCommand to(RoleRequest src);
 
+    AddPermissionCommand to(UUID roleId, AddPermissionRequest src);
+
+    DeletePermissionCommand to(UUID roleId, UUID permissionId);
+
     Role to(RoleAggregate src);
 
-    default UUID toUUID(AggregateID src) {
+    default UUID toUUID(RoleID src) {
         return src.value();
     }
 

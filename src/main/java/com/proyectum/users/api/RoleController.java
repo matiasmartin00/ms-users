@@ -1,8 +1,7 @@
 package com.proyectum.users.api;
 
 import com.proyectum.api.RoleApi;
-import com.proyectum.model.RoleRequest;
-import com.proyectum.model.RoleResponse;
+import com.proyectum.model.*;
 import com.proyectum.users.api.mapper.RoleApiMapper;
 import com.proyectum.users.ddd.command.CommandBus;
 import com.proyectum.users.ddd.query.QueryBus;
@@ -13,10 +12,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,6 +38,19 @@ public class RoleController implements RoleApi {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('admin')")
+    public ResponseEntity<Void> addPermission(
+            @PathVariable UUID roleId,
+            @Valid @RequestBody AddPermissionRequest addPermission) {
+        var command = roleApiMapper.to(roleId, addPermission);
+        commandBus.handle(command);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .build();
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('admin')")
     public ResponseEntity<RoleResponse> listAll() {
         var roles = (List<RoleAggregate>) queryBus.ask(new ListRolesQuery());
         var response = new RoleResponse();
@@ -45,5 +59,14 @@ public class RoleController implements RoleApi {
                 .map(roleApiMapper::to)
                 .toList());
         return ResponseEntity.ok(response);
+    }
+
+    @Override
+    public ResponseEntity<Void> deletePermission(UUID roleId, UUID permissionId) {
+        var command = roleApiMapper.to(roleId, permissionId);
+        commandBus.handle(command);
+        return ResponseEntity
+                .ok()
+                .build();
     }
 }

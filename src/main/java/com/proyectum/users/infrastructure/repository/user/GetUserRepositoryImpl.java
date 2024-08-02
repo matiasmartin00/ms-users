@@ -1,6 +1,7 @@
 package com.proyectum.users.infrastructure.repository.user;
 
 import com.proyectum.users.domain.model.user.UserAggregate;
+import com.proyectum.users.domain.model.user.UserID;
 import com.proyectum.users.domain.model.user.Username;
 import com.proyectum.users.domain.repository.user.GetUserRepository;
 import com.proyectum.users.infrastructure.repository.user.mapper.UserEntityMapper;
@@ -21,6 +22,12 @@ public class GetUserRepositoryImpl implements GetUserRepository {
     @Override
     public Optional<UserAggregate> getByUsername(Username username) {
         var entityOpt = userEntityRepository.findByUsername(username.value());
+        return entityOpt.map(userEntityMapper::to);
+    }
+
+    @Override
+    public Optional<UserAggregate> getById(UserID id) {
+        var entityOpt = userEntityRepository.findById(id.value());
         return entityOpt.map(userEntityMapper::to);
     }
 }

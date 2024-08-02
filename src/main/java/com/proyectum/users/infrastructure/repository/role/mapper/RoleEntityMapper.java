@@ -1,6 +1,5 @@
 package com.proyectum.users.infrastructure.repository.role.mapper;
 
-import com.proyectum.users.ddd.aggregate.AggregateID;
 import com.proyectum.users.domain.model.role.*;
 import com.proyectum.users.infrastructure.repository.postgres.entity.PermissionEntity;
 import com.proyectum.users.infrastructure.repository.postgres.entity.RoleEntity;
@@ -21,8 +20,8 @@ public interface RoleEntityMapper {
         return new PermissionID(src);
     }
 
-    default AggregateID toAggregateId(UUID src) {
-        return new AggregateID(src);
+    default RoleID toAggregateId(UUID src) {
+        return new RoleID(src);
     }
 
     default Name toName(String src) {
@@ -33,7 +32,7 @@ public interface RoleEntityMapper {
         return new Description(src);
     }
 
-    default UUID toUUID(AggregateID src) {
+    default UUID toUUID(RoleID src) {
         return src.value();
     }
 

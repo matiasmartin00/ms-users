@@ -4,6 +4,7 @@ import com.proyectum.users.boot.config.ddd.exceptions.UnknownCommandHandlerExcep
 import com.proyectum.users.ddd.command.Command;
 import com.proyectum.users.ddd.command.CommandBus;
 import com.proyectum.users.ddd.command.CommandHandler;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Map;
@@ -15,6 +16,7 @@ public class CommandBusImpl implements CommandBus {
     private final Map<Class<? extends Command>, CommandHandler> handlers;
 
     @Override
+    @Transactional
     public <R> R handle(Command command) {
         var handler = handlers.get(command.getClass());
         if (Objects.isNull(handler)) {
