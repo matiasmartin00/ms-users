@@ -1,6 +1,8 @@
 package com.proyectum.users.boot.security;
 
 import com.proyectum.users.domain.repository.JwtRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,6 +19,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import java.util.List;
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -28,7 +32,7 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter, SecurityConfig securityConfig) throws Exception {
         http
             .csrf(AbstractHttpConfigurer::disable)
             .sessionManagement(session ->
@@ -36,7 +40,7 @@ public class SecurityConfiguration {
             )
             .authorizeHttpRequests(authorizeRequests ->
                 authorizeRequests
-                        .requestMatchers("/v1/auth/sign-in", "v1/auth/sign-up")
+                        .requestMatchers(securityConfig.getExcludesPattern().toArray(new String[0]))
                         .permitAll()
                         .anyRequest()
                         .authenticated()
@@ -46,8 +50,8 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter(JwtRepository jwtRepository, UserDetailsService userDetailsService) {
-        return new JwtAuthenticationFilter(jwtRepository, userDetailsService);
+    public JwtAuthenticationFilter jwtAuthenticationFilter(JwtRepository jwtRepository, UserDetailsService userDetailsService, SecurityConfig securityConfig) {
+        return new JwtAuthenticationFilter(jwtRepository, userDetailsService, securityConfig);
     }
 
     @Bean

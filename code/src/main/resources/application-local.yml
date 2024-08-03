@@ -1,8 +1,6 @@
 logging:
   level:
-    org:
-      springframework:
-        security: ERROR
+    root: INFO
 spring:
   security:
     jwt:

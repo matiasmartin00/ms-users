@@ -1,0 +1,20 @@
+logging:
+  level:
+    root: INFO
+spring:
+  security:
+    jwt:
+      secret: ${SECRET_JWT}
+      expiration: ${JWT_TOKEN_EXPIRATION}
+  flyway:
+    enabled: true
+    validate-on-migrate: true
+    locations: classpath:db/migrations/users
+    default-schema: ${POSTGRES_DB}
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${HOST_POSTGRES}:${PORT_POSTGRES}/${POSTGRES_DB}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+    hikari:
+      schema: ${POSTGRES_DB}

@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ms-users-config
+data:
+  postgres-db: "users"
+  jwt-expiration: "86400000"
+  spring-profile: "dev"
+  host-postgres: "users-postgres"
+  port-postgres: "5432"
