@@ -1,4 +1,12 @@
+logging:
+  level:
+    root: ERROR
 spring:
+  security:
+    excludes-pattern:
+      - "/actuator/**"
+      - "/v1/auth/sign-in"
+      - "/v1/auth/sign-up"
   profiles:
     active: local
   application:
@@ -6,3 +14,16 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: ALWAYS
+  health:
+    livenessState:
+      enabled: true
+    readinessState:
+      enabled: true

@@ -4,6 +4,7 @@ import com.proyectum.users.domain.model.role.*;
 import com.proyectum.users.infrastructure.repository.postgres.entity.PermissionEntity;
 import com.proyectum.users.infrastructure.repository.postgres.entity.RoleEntity;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.UUID;
 

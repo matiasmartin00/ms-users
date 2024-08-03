@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ms-users
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ms-users
+  template:
+    metadata:
+      labels:
+        app: ms-users
+    spec:
+      containers:
+        - name: ms-users
+          image: matiass2010/ms-users:0.1.0
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              memory: 512Mi
+              cpu: 500m
+            limits:
+              memory: 1024Mi
+              cpu: 1000m
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readinessState
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/livenessState
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              valueFrom:
+                configMapKeyRef:
+                  name: ms-users-config
+                  key: spring-profile
+            - name: HOST_POSTGRES
+              valueFrom:
+                configMapKeyRef:
+                  name: ms-users-config
+                  key: host-postgres
+            - name: JWT_TOKEN_EXPIRATION
+              valueFrom:
+                configMapKeyRef:
+                  name: ms-users-config
+                  key: jwt-expiration
+            - name: PORT_POSTGRES
+              valueFrom:
+                configMapKeyRef:
+                  name: ms-users-config
+                  key: port-postgres
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: ms-users-config
+                  key: postgres-db
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: ms-users-secret
+                  key: postgres-user
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ms-users-secret
+                  key: postgres-password
+            - name: SECRET_JWT
+              valueFrom:
+                secretKeyRef:
+                  name: ms-users-secret
+                  key: secret-jwt

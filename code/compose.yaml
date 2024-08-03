@@ -7,3 +7,26 @@ services:
       - 'POSTGRES_USER=admin'
     ports:
       - '5432:5432'
+    networks:
+      - mynetwork
+
+  ms-users:
+    image: matiass2010/ms-users:0.1.0
+    environment:
+      - 'SPRING_PROFILES_ACTIVE=dev'
+      - 'SECRET_JWT=fake-secret'
+      - 'JWT_TOKEN_EXPIRATION=86400000'
+      - 'POSTGRES_DB=users'
+      - 'HOST_POSTGRES=postgres'
+      - 'PORT_POSTGRES=5432'
+      - 'POSTGRES_USER=admin'
+      - 'POSTGRES_PASSWORD=password'
+    ports:
+      - '8080:8080'
+    depends_on:
+      - postgres
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
