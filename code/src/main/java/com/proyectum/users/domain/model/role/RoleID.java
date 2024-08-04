@@ -1,6 +1,6 @@
 package com.proyectum.users.domain.model.role;
 
-import com.proyectum.users.ddd.aggregate.ValueObject;
+import com.proyectum.ddd.aggregate.ValueObject;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 

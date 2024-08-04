@@ -1,8 +1,8 @@
 package com.proyectum.users.boot.config.ddd.command;
 
-import com.proyectum.users.ddd.command.Command;
-import com.proyectum.users.ddd.command.CommandBus;
-import com.proyectum.users.ddd.command.CommandHandler;
+import com.proyectum.cqrs.commad.Command;
+import com.proyectum.cqrs.commad.CommandBus;
+import com.proyectum.cqrs.commad.CommandHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

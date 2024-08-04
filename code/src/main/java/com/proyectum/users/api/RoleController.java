@@ -1,10 +1,12 @@
 package com.proyectum.users.api;
 
 import com.proyectum.api.RoleApi;
-import com.proyectum.model.*;
+import com.proyectum.cqrs.commad.CommandBus;
+import com.proyectum.cqrs.query.QueryBus;
+import com.proyectum.model.AddPermissionRequest;
+import com.proyectum.model.RoleRequest;
+import com.proyectum.model.RoleResponse;
 import com.proyectum.users.api.mapper.RoleApiMapper;
-import com.proyectum.users.ddd.command.CommandBus;
-import com.proyectum.users.ddd.query.QueryBus;
 import com.proyectum.users.domain.model.role.RoleAggregate;
 import com.proyectum.users.domain.query.role.ListRolesQuery;
 import jakarta.validation.Valid;

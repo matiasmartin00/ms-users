@@ -1,11 +1,13 @@
 package com.proyectum.users.domain.model.user;
 
-import com.proyectum.users.ddd.aggregate.AggregateRoot;
+import com.proyectum.ddd.aggregate.Aggregate;
 import com.proyectum.users.domain.event.user.UserRegisteredEvent;
 import com.proyectum.users.domain.event.user.UserRoleAddedEvent;
 import com.proyectum.users.domain.event.user.UserRoleDeletedEvent;
 import com.proyectum.users.domain.model.role.RoleAggregate;
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -15,7 +17,7 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-public class UserAggregate extends AggregateRoot<UserID> {
+public class UserAggregate extends Aggregate<UserID> {
 
     private Username username;
     private Password password;

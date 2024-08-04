@@ -1,6 +1,6 @@
 package com.proyectum.users.domain.model.role;
 
-import com.proyectum.users.ddd.aggregate.AggregateRoot;
+import com.proyectum.ddd.aggregate.Aggregate;
 import com.proyectum.users.domain.event.role.RoleCreatedEvent;
 import com.proyectum.users.domain.event.role.RolePermissionAddedEvent;
 import com.proyectum.users.domain.event.role.RolePermissionDeletedEvent;
@@ -15,7 +15,7 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-public class RoleAggregate extends AggregateRoot<RoleID> {
+public class RoleAggregate extends Aggregate<RoleID> {
 
     private Name name;
     private Description description;
