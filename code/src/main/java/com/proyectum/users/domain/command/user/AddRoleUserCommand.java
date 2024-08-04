@@ -1,6 +1,6 @@
 package com.proyectum.users.domain.command.user;
 
-import com.proyectum.users.ddd.command.Command;
+import com.proyectum.cqrs.commad.Command;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 

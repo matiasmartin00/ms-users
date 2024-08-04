@@ -1,6 +1,6 @@
 package com.proyectum.users.domain.event.user;
 
-import com.proyectum.users.ddd.event.DomainEvent;
+import com.proyectum.ddd.aggregate.DomainEvent;
 import com.proyectum.users.domain.model.role.RoleID;
 import com.proyectum.users.domain.model.user.UserID;
 import jakarta.validation.Valid;

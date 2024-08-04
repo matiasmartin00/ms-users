@@ -1,10 +1,10 @@
 package com.proyectum.users.api;
 
 import com.proyectum.api.AuthApi;
+import com.proyectum.cqrs.commad.CommandBus;
+import com.proyectum.cqrs.query.QueryBus;
 import com.proyectum.model.*;
 import com.proyectum.users.api.mapper.AuthApiMapper;
-import com.proyectum.users.ddd.command.CommandBus;
-import com.proyectum.users.ddd.query.QueryBus;
 import com.proyectum.users.domain.model.user.UserProjection;
 import com.proyectum.users.infrastructure.service.CurrentUserService;
 import jakarta.validation.Valid;

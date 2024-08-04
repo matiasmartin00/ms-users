@@ -1,9 +1,9 @@
 package com.proyectum.users.boot.config.ddd.command;
 
+import com.proyectum.cqrs.commad.Command;
+import com.proyectum.cqrs.commad.CommandBus;
+import com.proyectum.cqrs.commad.CommandHandler;
 import com.proyectum.users.boot.config.ddd.exceptions.UnknownCommandHandlerException;
-import com.proyectum.users.ddd.command.Command;
-import com.proyectum.users.ddd.command.CommandBus;
-import com.proyectum.users.ddd.command.CommandHandler;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 

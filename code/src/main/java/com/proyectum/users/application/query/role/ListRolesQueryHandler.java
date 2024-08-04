@@ -1,7 +1,6 @@
 package com.proyectum.users.application.query.role;
 
-import com.proyectum.users.application.usecase.role.ListRolesUseCaseImpl;
-import com.proyectum.users.ddd.query.QueryHandler;
+import com.proyectum.cqrs.query.QueryHandler;
 import com.proyectum.users.domain.model.role.RoleAggregate;
 import com.proyectum.users.domain.query.role.ListRolesQuery;
 import com.proyectum.users.domain.usecase.role.ListRolesUseCase;

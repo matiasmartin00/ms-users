@@ -1,6 +1,6 @@
 package com.proyectum.users.application.query.user;
 
-import com.proyectum.users.ddd.query.QueryHandler;
+import com.proyectum.cqrs.query.QueryHandler;
 import com.proyectum.users.domain.model.user.UserProjection;
 import com.proyectum.users.domain.query.user.GetAuthDataQuery;
 import com.proyectum.users.domain.usecase.user.GetAuthDataUseCase;
