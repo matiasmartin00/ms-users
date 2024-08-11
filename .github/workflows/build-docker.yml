@@ -14,8 +14,24 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Install xmllint
-        run: sudo apt-get update && sudo apt-get install -y xmlstarlet
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '21'
+
+      - name: Install Maven
+        run: sudo apt-get update && sudo apt-get install -y maven
+
+      - name: Extract version from pom.xml
+        id: extract_version
+        run: |
+          VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          echo "VERSION=${VERSION}" >> $GITHUB_ENV
+
+      - name: Debug extracted version
+        run: |
+          echo "Extracted version: ${{ env.VERSION }}"
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
@@ -26,12 +42,6 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GH_TOKEN }}
-
-      - name: Extract version from pom.xml
-        id: extract_version
-        run: |
-          VERSION=$(xmlstarlet sel -t -v "//project/version" code/pom.xml)
-          echo "VERSION=${VERSION}" >> $GITHUB_ENV
 
       - name: Build Docker image
         run: |
