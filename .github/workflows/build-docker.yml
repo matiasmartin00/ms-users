@@ -29,9 +29,23 @@ jobs:
           VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           echo "VERSION=${VERSION}" >> $GITHUB_ENV
 
-      - name: Debug extracted version
+      - name: Convert repository owner and repo name to lowercase
+        id: lowercase
+        run: |
+          # Extrae el propietario y el nombre del repositorio y conviértelos a minúsculas
+          REPO_OWNER=${{ github.repository_owner }}
+          REPO_NAME=${{ github.repository }}
+          IMAGE_NAME=${REPO_NAME#*/}
+          REPO_OWNER_LOWER=$(echo "$REPO_OWNER" | tr '[:upper:]' '[:lower:]')
+          IMAGE_NAME_LOWER=$(echo "$IMAGE_NAME" | tr '[:upper:]' '[:lower:]')
+          echo "REPO_OWNER_LOWER=${REPO_OWNER_LOWER}" >> $GITHUB_ENV
+          echo "IMAGE_NAME_LOWER=${IMAGE_NAME_LOWER}" >> $GITHUB_ENV
+
+      - name: Debug extracted version, owner, and image name
         run: |
           echo "Extracted version: ${{ env.VERSION }}"
+          echo "Repository owner (lowercase): ${{ env.REPO_OWNER_LOWER }}"
+          echo "Image name (lowercase): ${{ env.IMAGE_NAME_LOWER }}"
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
@@ -45,11 +59,8 @@ jobs:
 
       - name: Build Docker image
         run: |
-          REPO_NAME=${{ github.repository }}
-          IMAGE_NAME=${REPO_NAME#*/}
-          docker build --build-arg GITHUB_TOKEN=${{ secrets.GH_TOKEN }} -t ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME:${{ env.VERSION }} .
+          docker build -t ghcr.io/${{ env.REPO_OWNER_LOWER }}/$IMAGE_NAME_LOWER:${{ env.VERSION }} .
 
       - name: Push Docker image
         run: |
-          IMAGE_NAME=${{ github.repository_owner }}/$IMAGE_NAME:${{ env.VERSION }}
-          docker push ghcr.io/${IMAGE_NAME}
+          docker push ghcr.io/${{ env.REPO_OWNER_LOWER }}/$IMAGE_NAME_LOWER:${{ env.VERSION }}
