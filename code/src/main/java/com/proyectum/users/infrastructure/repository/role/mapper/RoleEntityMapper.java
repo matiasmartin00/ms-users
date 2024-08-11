@@ -21,7 +21,7 @@ public interface RoleEntityMapper {
         return new PermissionID(src);
     }
 
-    default RoleID toAggregateId(UUID src) {
+    default RoleID toRoleId(UUID src) {
         return new RoleID(src);
     }
 

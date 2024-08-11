@@ -21,11 +21,6 @@ public class RoleAggregate extends Aggregate<RoleID> {
     private Description description;
     private Set<Permission> permissions;
 
-    public RoleAggregate() {
-        super();
-        this.permissions = new HashSet<>();
-    }
-
     public RoleAggregate(RoleID id, Name name, Description description, Set<Permission> permissions) {
         super(id);
         this.name = name;
