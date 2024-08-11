@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.proyectum</groupId>
     <artifactId>ms-users</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>ms-users</name>
     <description>ms-users</description>
     <properties>
