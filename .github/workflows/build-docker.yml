@@ -30,7 +30,7 @@ jobs:
       - name: Extract version from pom.xml
         id: extract_version
         run: |
-          VERSION=$(xmllint --xpath "string(//project/version)" code/pom.xml)
+          VERSION=$(xmlstarlet sel -t -v "//project/version" code/pom.xml)
           echo "VERSION=${VERSION}" >> $GITHUB_ENV
 
       - name: Build Docker image
