@@ -137,6 +137,12 @@
             <artifactId>cqrs-ddd-library</artifactId>
             <version>1.0.1</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.proyectum</groupId>
+            <artifactId>cqrs-ddd-library-spring</artifactId>
+            <version>1.1.0</version>
+        </dependency>
     </dependencies>
 
     <build>
